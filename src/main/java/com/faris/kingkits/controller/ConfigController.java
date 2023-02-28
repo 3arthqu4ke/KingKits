@@ -233,7 +233,7 @@ public class ConfigController implements Controller {
 		this.getConfig().addDefault("Kit list mode", "GUI", "The way the kits are listed, there are three options:", "Text - List of chat messages sent with the kit names.", "Fancy - List of clickable messages sent with the kit names.", "GUI - A menu shows up with all the kits and their icons.");
 		this.getConfig().addDefault("One kit per life", false);
 		this.getConfig().addDefault("Commands to run on death", new ArrayList<>(), "A list of commands to run when a player dies. <player> is automatically replaced with the dead player's username.");
-		this.getConfig().addDefault("Drop animation IDs", new ArrayList<>(Arrays.asList(Material.MUSHROOM_SOUP.getId(), Material.GLASS_BOTTLE.getId())), "A list of item IDs that, when dropped and dropping items is disabled, are dropped but get removed when on the floor.");
+		this.getConfig().addDefault("Drop animation IDs", new ArrayList<>(Arrays.asList(Material.MUSHROOM_STEW.getKey().getKey(), Material.GLASS_BOTTLE.getKey().getKey())), "A list of item IDs that, when dropped and dropping items is disabled, are dropped but get removed when on the floor.");
 		this.getConfig().addDefault("Food level lock", 20, "The food level to lock a player's food level at.");
 		this.getConfig().addDefault("Quick soup heal", 5D, "The amount of health to heal a player by when they quick soup. 1 heart = 2 health.");
 		this.getConfig().options().copyHeader(true);

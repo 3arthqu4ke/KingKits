@@ -3,12 +3,12 @@ package com.faris.kingkits.helper.util;
 import com.faris.kingkits.Kit;
 import com.faris.kingkits.Messages;
 import com.faris.kingkits.helper.Time;
-import com.faris.kingkits.hook.VaultAPI;
 import com.faris.kingkits.player.KitPlayer;
-import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.Objects;
 
 public class PlayerUtilities {
 
@@ -32,7 +32,6 @@ public class PlayerUtilities {
 	}
 
 	public static double getBalance(Player player) {
-		if (BukkitUtilities.hasPlugin("Vault")) return VaultAPI.getBalance(player);
 		return 0D;
 	}
 
@@ -45,12 +44,6 @@ public class PlayerUtilities {
 	}
 
 	public static boolean incrementMoney(Player player, double amount) {
-		if (player != null && amount != 0D) {
-			if (BukkitUtilities.hasPlugin("Vault")) {
-				VaultAPI.giveMoney(player, amount);
-				return true;
-			}
-		}
 		return false;
 	}
 
@@ -80,12 +73,12 @@ public class PlayerUtilities {
 					classEnumClientCommand = ReflectionUtilities.getClass(classPacketPlayInClientCommand, "EnumClientCommand");
 
 				ReflectionUtilities.MethodInvoker methodGetHandle = ReflectionUtilities.getMethod(classCraftPlayer, "getHandle");
-				Validate.notNull(methodGetHandle);
+				Objects.requireNonNull(methodGetHandle);
 				Object entityPlayer = methodGetHandle.invoke(player);
 
 				ReflectionUtilities.ConstructorInvoker constructorPacket = ReflectionUtilities.getConstructor(classPacketPlayInClientCommand, classEnumClientCommand);
 				Object enumPerformRespawn = ReflectionUtilities.getEnum(classEnumClientCommand, "PERFORM_RESPAWN");
-				Validate.notNull(enumPerformRespawn);
+				Objects.requireNonNull(enumPerformRespawn);
 
 				ReflectionUtilities.FieldAccess fieldPlayerConnection = ReflectionUtilities.getField(entityPlayer.getClass(), "playerConnection");
 				Object playerConnection = fieldPlayerConnection.getObject(entityPlayer);
@@ -131,12 +124,6 @@ public class PlayerUtilities {
 	}
 
 	public static boolean setBalance(Player player, double balance) {
-		if (player != null) {
-			if (BukkitUtilities.hasPlugin("Vault")) {
-				VaultAPI.setBalance(player, balance);
-				return true;
-			}
-		}
 		return false;
 	}
 

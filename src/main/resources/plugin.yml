@@ -3,6 +3,7 @@ main: com.faris.kingkits.KingKits
 version: ${project.version}
 description: Have battles with enemies using custom made kits!
 author: KingFaris10
+api-version: 1.19
 softdepend: [Vault]
 commands:
     kingkits:

@@ -234,3 +234,7 @@ pip-log.txt
 ## Maven Target Folder
 ##############
 target/
+
+/libs/spigot-1.19.3-R0.1-SNAPSHOT-remapped.jar
+.idea
+/KingKits.iml

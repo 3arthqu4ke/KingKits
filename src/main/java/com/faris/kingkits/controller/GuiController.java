@@ -87,15 +87,15 @@ public class GuiController implements Controller {
 		this.userKitsInventory = Bukkit.getServer().createInventory(null, ConfigController.getInstance().getGuiSize(), StringUtilities.trimString(GuiType.GUI_USER_KITS.getTitle(), 32));
 		this.previewInventory = Bukkit.getServer().createInventory(null, 36 + 9 + 9, GuiType.GUI_PREVIEW_KIT.getTitle());
 
-		this.kitsMenuInventory.setItem(3, ItemUtilities.renameItem(new ItemStack(Material.EMPTY_MAP), Messages.GUI_KITS_MENU_GLOBAL.getMessage()));
-		this.kitsMenuInventory.setItem(5, ItemUtilities.renameItem(new ItemStack(Material.MAP), Messages.GUI_KITS_MENU_USER.getMessage()));
+		this.kitsMenuInventory.setItem(3, ItemUtilities.renameItem(new ItemStack(Material.MAP), Messages.GUI_KITS_MENU_GLOBAL.getMessage()));
+		this.kitsMenuInventory.setItem(5, ItemUtilities.renameItem(new ItemStack(Material.FILLED_MAP), Messages.GUI_KITS_MENU_USER.getMessage()));
 
 		this.previewInventory.setItem(this.previewInventory.getSize() - 6, ItemUtilities.renameItem(new ItemStack(Material.STONE_BUTTON), "&6Select"));
 		this.previewInventory.setItem(this.previewInventory.getSize() - 4, ItemUtilities.renameItem(new ItemStack(Material.STONE_BUTTON), "&cExit"));
 	}
 
 	public Inventory createKitsMenuInventory(Player player) {
-		Inventory kitsMenuInv = Bukkit.getServer().createInventory(player, this.kitsMenuInventory.getSize(), this.kitsMenuInventory.getTitle());
+		Inventory kitsMenuInv = Bukkit.getServer().createInventory(player, this.kitsMenuInventory.getSize(), GuiType.GUI_KITS_MENU.getTitle());
 		kitsMenuInv.setContents(this.kitsMenuInventory.getContents());
 		return kitsMenuInv;
 	}
@@ -103,7 +103,7 @@ public class GuiController implements Controller {
 	public Inventory createKitsInventory(Player player) {
 		Inventory kitsInv = null;
 		if (player != null) {
-			kitsInv = Bukkit.getServer().createInventory(player, this.kitsInventory.getSize(), this.kitsInventory.getTitle());
+			kitsInv = Bukkit.getServer().createInventory(player, this.kitsInventory.getSize(), GuiType.GUI_KITS_MENU.getTitle());
 			kitsInv.setContents(this.kitsInventory.getContents());
 
 			Collection<Kit> kitList = ConfigController.getInstance().shouldSortKitsAlphanumerically() ? KitUtilities.sortAlphabetically(KitController.getInstance().getKits().values()) : KitController.getInstance().getKits().values();
@@ -137,7 +137,7 @@ public class GuiController implements Controller {
 	public Inventory createKitsInventory(Player player, int page) {
 		Inventory kitsInv = null;
 		if (player != null) {
-			kitsInv = Bukkit.getServer().createInventory(player, this.kitsInventory.getSize(), this.kitsInventory.getTitle());
+			kitsInv = Bukkit.getServer().createInventory(player, this.kitsInventory.getSize(), GuiType.GUI_KITS_MENU.getTitle());
 			kitsInv.setContents(this.kitsInventory.getContents());
 
 			Collection<Kit> kitList = ConfigController.getInstance().shouldSortKitsAlphanumerically() ? KitUtilities.sortAlphabetically(KitController.getInstance().getKits().values()) : KitController.getInstance().getKits().values();
@@ -171,7 +171,7 @@ public class GuiController implements Controller {
 	public Inventory createKitPreviewInventory(Player player, Kit kit) {
 		Inventory kitPreviewInv = null;
 		if (player != null) {
-			kitPreviewInv = Bukkit.getServer().createInventory(player, this.previewInventory.getSize(), StringUtilities.trimString(ChatUtilities.replaceChatCodes(this.previewInventory.getTitle().replace("<kit>", kit != null ? kit.getDisplayName() : "null")), 32));
+			kitPreviewInv = Bukkit.getServer().createInventory(player, this.previewInventory.getSize(), StringUtilities.trimString(ChatUtilities.replaceChatCodes(GuiType.GUI_PREVIEW_KIT.getTitle().replace("<kit>", kit != null ? kit.getDisplayName() : "null")), 32));
 			kitPreviewInv.setContents(this.previewInventory.getContents());
 
 			if (kit != null) {
@@ -198,7 +198,7 @@ public class GuiController implements Controller {
 		Inventory userKitsInv = null;
 		KitPlayer kitPlayer = PlayerController.getInstance().getPlayer(player);
 		if (kitPlayer != null) {
-			userKitsInv = Bukkit.getServer().createInventory(player, this.userKitsInventory.getSize(), this.userKitsInventory.getTitle());
+			userKitsInv = Bukkit.getServer().createInventory(player, this.userKitsInventory.getSize(), GuiType.GUI_USER_KITS.getTitle());
 			userKitsInv.setContents(this.userKitsInventory.getContents());
 
 			GuiKits guiKits = new GuiKits(ConfigController.getInstance().shouldSortKitsAlphanumerically() ? KitUtilities.sortAlphabetically(kitPlayer.getKits().values()) : kitPlayer.getKits().values());

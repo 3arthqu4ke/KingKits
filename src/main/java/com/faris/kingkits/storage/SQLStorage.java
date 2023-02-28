@@ -9,16 +9,16 @@ import com.faris.kingkits.Kit;
 import com.faris.kingkits.controller.SQLController;
 import com.faris.kingkits.helper.util.JsonUtilities;
 import com.faris.kingkits.helper.util.Utilities;
+import com.faris.kingkits.listener.JsonUtil;
 import com.faris.kingkits.player.KitPlayer;
 import com.faris.kingkits.player.OfflineKitPlayer;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
-import org.json.simple.JSONObject;
 
 import java.util.*;
-import java.util.logging.*;
+import java.util.logging.Level;
 
 public class SQLStorage extends DataStorage {
 
@@ -288,11 +288,11 @@ public class SQLStorage extends DataStorage {
 							StatementInsertTable statementInsertTable = new StatementInsertTable(SQLController.getInstance().getHandler()).setTable(SQLController.getInstance().getPlayersTable()).setColumns(new StatementInsertTable.Column("uuid", strUUID), new StatementInsertTable.Column("username", strUsername));
 							statementInsertTable.addColumns(new StatementInsertTable.Column("score", score));
 							if (!unlockedKits.isEmpty())
-								statementInsertTable.addColumns(new StatementInsertTable.Column("unlocked", JSONObject.escape(Utilities.getGsonParser().toJson(JsonUtilities.fromArray(unlockedKits)))));
+								statementInsertTable.addColumns(new StatementInsertTable.Column("unlocked", JsonUtil.escape(Utilities.getGsonParser().toJson(JsonUtilities.fromArray(unlockedKits)))));
 							if (!kitTimestamps.isEmpty())
-								statementInsertTable.addColumns(new StatementInsertTable.Column("timestamps", JSONObject.escape(Utilities.getGsonParser().toJson(JsonUtilities.fromMap(kitTimestamps)))));
+								statementInsertTable.addColumns(new StatementInsertTable.Column("timestamps", JsonUtil.escape(Utilities.getGsonParser().toJson(JsonUtilities.fromMap(kitTimestamps)))));
 							if (!playerKits.isEmpty())
-								statementInsertTable.addColumns(new StatementInsertTable.Column("kits", JSONObject.escape(Utilities.getGsonParser().toJson(JsonUtilities.fromMap(playerKits)))));
+								statementInsertTable.addColumns(new StatementInsertTable.Column("kits", JsonUtil.escape(Utilities.getGsonParser().toJson(JsonUtilities.fromMap(playerKits)))));
 							statementInsertTable.execute();
 						} else {
 							StatementUpdateTable statementUpdateTable = new StatementUpdateTable(SQLController.getInstance().getHandler()).setTable(SQLController.getInstance().getPlayersTable());
@@ -306,9 +306,9 @@ public class SQLStorage extends DataStorage {
 								return;
 							}
 							statementUpdateTable.addColumns(new StatementUpdateTable.Column("score", score));
-							statementUpdateTable.addColumns(new StatementUpdateTable.Column("unlocked", !unlockedKits.isEmpty() ? JSONObject.escape(Utilities.getGsonParser().toJson(JsonUtilities.fromArray(unlockedKits))) : ""));
-							statementUpdateTable.addColumns(new StatementUpdateTable.Column("timestamps", !kitTimestamps.isEmpty() ? JSONObject.escape(Utilities.getGsonParser().toJson(JsonUtilities.fromMap(kitTimestamps))) : ""));
-							statementUpdateTable.addColumns(new StatementUpdateTable.Column("kits", !playerKits.isEmpty() ? JSONObject.escape(Utilities.getGsonParser().toJson(JsonUtilities.fromMap(playerKits))) : ""));
+							statementUpdateTable.addColumns(new StatementUpdateTable.Column("unlocked", !unlockedKits.isEmpty() ? JsonUtil.escape(Utilities.getGsonParser().toJson(JsonUtilities.fromArray(unlockedKits))) : ""));
+							statementUpdateTable.addColumns(new StatementUpdateTable.Column("timestamps", !kitTimestamps.isEmpty() ? JsonUtil.escape(Utilities.getGsonParser().toJson(JsonUtilities.fromMap(kitTimestamps))) : ""));
+							statementUpdateTable.addColumns(new StatementUpdateTable.Column("kits", !playerKits.isEmpty() ? JsonUtil.escape(Utilities.getGsonParser().toJson(JsonUtilities.fromMap(playerKits))) : ""));
 							statementUpdateTable.execute();
 						}
 						if (runOnComplete != null) runOnComplete.run();

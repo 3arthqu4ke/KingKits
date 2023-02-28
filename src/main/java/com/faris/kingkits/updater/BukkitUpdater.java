@@ -1,19 +1,20 @@
 package com.faris.kingkits.updater;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.*;
-import java.util.logging.*;
-import java.util.zip.*;
+import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  * Check dev.bukkit.org to find updates for a given plugin, and download the updates if needed.
@@ -636,19 +637,24 @@ public class BukkitUpdater {
 			final BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			final String response = reader.readLine();
 
-			final JSONArray array = (JSONArray) JSONValue.parse(response);
+			try {
+				final JsonArray array = JsonParser.parseString(response).getAsJsonArray();
 
-			if (array.isEmpty()) {
-				this.plugin.getLogger().warning("The updater could not find any files for the project id " + this.id);
-				this.result = UpdateResult.FAIL_BADID;
-				return false;
+				if (array.isEmpty()) {
+					this.plugin.getLogger().warning("The updater could not find any files for the project id " + this.id);
+					this.result = UpdateResult.FAIL_BADID;
+					return false;
+				}
+
+				JsonObject latestUpdate = array.get(array.size() - 1).getAsJsonObject();
+				this.versionName = latestUpdate.get(BukkitUpdater.TITLE_VALUE).getAsString();
+				this.versionLink = latestUpdate.get(BukkitUpdater.LINK_VALUE).getAsString();
+				this.versionType = latestUpdate.get(BukkitUpdater.TYPE_VALUE).getAsString();
+
+				this.versionGameVersion = latestUpdate.get(BukkitUpdater.VERSION_VALUE).getAsString();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-
-			JSONObject latestUpdate = (JSONObject) array.get(array.size() - 1);
-			this.versionName = (String) latestUpdate.get(BukkitUpdater.TITLE_VALUE);
-			this.versionLink = (String) latestUpdate.get(BukkitUpdater.LINK_VALUE);
-			this.versionType = (String) latestUpdate.get(BukkitUpdater.TYPE_VALUE);
-			this.versionGameVersion = (String) latestUpdate.get(BukkitUpdater.VERSION_VALUE);
 
 			return true;
 		} catch (final IOException e) {

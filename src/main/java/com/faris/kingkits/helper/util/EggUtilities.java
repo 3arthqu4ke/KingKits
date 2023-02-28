@@ -13,7 +13,7 @@ public class EggUtilities {
 
 	public static String getEgg(ItemStack itemStack) {
 		if (itemStack != null) {
-			if (itemStack.getType() == Material.MONSTER_EGG) {
+			if (itemStack.getType() == Material.EGG) {
 				ItemMeta itemMeta = itemStack.getItemMeta();
 				if (itemMeta instanceof SpawnEggMeta) {
 					SpawnEggMeta spawnEggMeta = (SpawnEggMeta) itemMeta;
@@ -26,7 +26,7 @@ public class EggUtilities {
 
 	public static ItemStack setEgg(ItemStack itemStack, String entityType) {
 		if (itemStack != null && entityType != null) {
-			if (itemStack.getType() == Material.MONSTER_EGG) {
+			if (itemStack.getType() == Material.EGG) {
 				ItemMeta itemMeta = itemStack.getItemMeta();
 				if (itemMeta instanceof SpawnEggMeta) {
 					SpawnEggMeta spawnEggMeta = (SpawnEggMeta) itemMeta;

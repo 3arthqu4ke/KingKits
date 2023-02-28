@@ -4,7 +4,7 @@ import com.faris.kingkits.helper.util.ChatUtilities;
 import com.faris.kingkits.helper.util.ItemUtilities;
 import com.faris.kingkits.helper.util.StringUtilities;
 import com.faris.kingkits.helper.util.Utilities;
-import org.apache.commons.lang.Validate;
+import com.faris.kingkits.old.Validate;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -45,14 +45,14 @@ public class OldKit implements Iterable<ItemStack>, ConfigurationSerializable {
 	private int requiredScoreToUnlock = -1;
 
 	public OldKit(String kitName) {
-		Validate.notNull(kitName);
+		Objects.requireNonNull(kitName);
 		Validate.notEmpty(kitName);
 		this.kitName = kitName;
 		this.guiItem = new ItemStack(Material.DIAMOND_SWORD, 1);
 	}
 
 	public OldKit(String kitName, double kitCost) {
-		Validate.notNull(kitName);
+		Objects.requireNonNull(kitName);
 		Validate.notEmpty(kitName);
 		this.kitName = kitName;
 		this.kitCost = kitCost;
@@ -60,8 +60,8 @@ public class OldKit implements Iterable<ItemStack>, ConfigurationSerializable {
 	}
 
 	public OldKit(String kitName, Map<Integer, ItemStack> kitItems) {
-		Validate.notNull(kitName);
-		Validate.notNull(kitItems);
+		Objects.requireNonNull(kitName);
+		Objects.requireNonNull(kitItems);
 		Validate.notEmpty(kitName);
 		this.kitName = kitName;
 		this.kitItems = kitItems;
@@ -69,9 +69,9 @@ public class OldKit implements Iterable<ItemStack>, ConfigurationSerializable {
 	}
 
 	public OldKit(String kitName, Map<Integer, ItemStack> kitItems, List<PotionEffect> potionEffects) {
-		Validate.notNull(kitName);
-		Validate.notNull(kitItems);
-		Validate.notNull(potionEffects);
+		Objects.requireNonNull(kitName);
+		Objects.requireNonNull(kitItems);
+		Objects.requireNonNull(potionEffects);
 		Validate.notEmpty(kitName);
 		this.kitName = kitName;
 		this.kitItems = kitItems;
@@ -80,8 +80,8 @@ public class OldKit implements Iterable<ItemStack>, ConfigurationSerializable {
 	}
 
 	public OldKit(String kitName, double kitCost, Map<Integer, ItemStack> kitItems) {
-		Validate.notNull(kitName);
-		Validate.notNull(kitItems);
+		Objects.requireNonNull(kitName);
+		Objects.requireNonNull(kitItems);
 		Validate.notEmpty(kitName);
 		this.kitName = kitName;
 		this.kitItems = kitItems;
@@ -90,9 +90,9 @@ public class OldKit implements Iterable<ItemStack>, ConfigurationSerializable {
 	}
 
 	public OldKit(String kitName, double kitCost, Map<Integer, ItemStack> kitItems, List<PotionEffect> potionEffects) {
-		Validate.notNull(kitName);
-		Validate.notNull(kitItems);
-		Validate.notNull(potionEffects);
+		Objects.requireNonNull(kitName);
+		Objects.requireNonNull(kitItems);
+		Objects.requireNonNull(potionEffects);
 		Validate.notEmpty(kitName);
 		this.kitName = kitName;
 		this.kitItems = kitItems;
@@ -214,7 +214,7 @@ public class OldKit implements Iterable<ItemStack>, ConfigurationSerializable {
 	}
 
 	public OldKit setCommands(List<String> commands) {
-		Validate.notNull(commands);
+		Objects.requireNonNull(commands);
 		this.kitCommands = commands;
 		return this;
 	}
@@ -268,20 +268,20 @@ public class OldKit implements Iterable<ItemStack>, ConfigurationSerializable {
 	}
 
 	public OldKit setName(String name) {
-		Validate.notNull(name);
+		Objects.requireNonNull(name);
 		Validate.notEmpty(name);
 		this.kitName = name;
 		return this;
 	}
 
 	public OldKit setPotionEffects(List<PotionEffect> potionEffects) {
-		Validate.notNull(potionEffects);
+		Objects.requireNonNull(potionEffects);
 		this.potionEffects = potionEffects;
 		return this;
 	}
 
 	public OldKit setRealName(String realName) {
-		Validate.notNull(realName);
+		Objects.requireNonNull(realName);
 		this.realName = realName;
 		return this;
 	}
@@ -464,7 +464,7 @@ public class OldKit implements Iterable<ItemStack>, ConfigurationSerializable {
 					ItemStack guiItem = null;
 					if (guiItemMap.containsKey("Type")) {
 						String strType = (guiItemMap.get("Type") != null ? guiItemMap.get("Type") : "").toString();
-						Material itemType = Utilities.isNumber(Integer.class, strType) ? Material.getMaterial(Integer.parseInt(strType)) : Material.getMaterial(strType.toUpperCase());
+						Material itemType = Material.getMaterial(strType.toUpperCase());
 						if (itemType == null || itemType == Material.AIR) itemType = Material.DIAMOND_SWORD;
 						int itemAmount = getObject(guiItemMap, "Amount", Integer.class, 1);
 						short itemData = getObject(guiItemMap, "Data", Short.class, (short) 0);
@@ -481,7 +481,7 @@ public class OldKit implements Iterable<ItemStack>, ConfigurationSerializable {
 						if (guiItemMap.containsKey("Enchantments")) {
 							Map<String, Object> guiItemEnchantments = getValues(guiItemMap, "Enchantments");
 							for (Map.Entry<String, Object> entrySet : guiItemEnchantments.entrySet()) {
-								Enchantment enchantmentType = Utilities.isNumber(Integer.class, entrySet.getKey()) ? Enchantment.getById(Integer.parseInt(entrySet.getKey())) : Enchantment.getByName(Utilities.getEnchantmentName(entrySet.getKey()));
+								Enchantment enchantmentType = Enchantment.getByName(Utilities.getEnchantmentName(entrySet.getKey()));
 								if (enchantmentType != null) {
 									String enchantmentValue = entrySet.getValue().toString();
 									int enchantmentLevel = Utilities.isNumber(Integer.class, enchantmentValue) ? Integer.parseInt(enchantmentValue) : 1;
@@ -518,7 +518,7 @@ public class OldKit implements Iterable<ItemStack>, ConfigurationSerializable {
 								Map<String, Object> kitMap = getValues(entrySet);
 
 								String strType = kitMap.containsKey("Type") ? getObject(kitMap, "Type", String.class) : Material.AIR.toString();
-								Material itemType = Utilities.isNumber(Integer.class, strType) ? Material.getMaterial(Integer.parseInt(strType)) : Material.getMaterial(strType);
+								Material itemType = Material.getMaterial(strType);
 								if (itemType == null) continue;
 								String itemName = kitMap.containsKey("Name") ? getObject(kitMap, "Name", String.class) : "";
 								int itemAmount = kitMap.containsKey("Amount") ? getObject(kitMap, "Amount", Integer.class) : 1;
@@ -544,7 +544,7 @@ public class OldKit implements Iterable<ItemStack>, ConfigurationSerializable {
 								if (kitMap.containsKey("Enchantments")) {
 									Map<String, Object> guiItemEnchantments = getValues(kitMap, "Enchantments");
 									for (Map.Entry<String, Object> enchantmentEntrySet : guiItemEnchantments.entrySet()) {
-										Enchantment enchantmentType = Utilities.isNumber(Integer.class, entrySet.getKey()) ? Enchantment.getById(Integer.parseInt(enchantmentEntrySet.getKey())) : Enchantment.getByName(Utilities.getEnchantmentName(enchantmentEntrySet.getKey()));
+										Enchantment enchantmentType = Enchantment.getByName(Utilities.getEnchantmentName(enchantmentEntrySet.getKey()));
 										if (enchantmentType != null) {
 											String enchantmentValue = enchantmentEntrySet.getValue().toString();
 											int enchantmentLevel = Utilities.isNumber(Integer.class, enchantmentValue) ? Integer.parseInt(enchantmentValue) : 1;
@@ -576,7 +576,7 @@ public class OldKit implements Iterable<ItemStack>, ConfigurationSerializable {
 					for (Map.Entry<String, Object> entrySet : armourItemsMap.entrySet()) {
 						Map<String, Object> kitMap = getValues(entrySet);
 						String strType = getObject(kitMap, "Type", String.class);
-						Material itemType = Utilities.isNumber(Integer.class, strType) ? Material.getMaterial(Integer.parseInt(strType)) : Material.getMaterial(strType);
+						Material itemType = Material.getMaterial(strType);
 						if (itemType == null) continue;
 						String itemName = kitMap.containsKey("Name") ? getObject(kitMap, "Name", String.class) : "";
 						String strItemDye = kitMap.containsKey("Dye") ? kitMap.get("Dye").toString() : "-1";
@@ -608,7 +608,7 @@ public class OldKit implements Iterable<ItemStack>, ConfigurationSerializable {
 						if (kitMap.containsKey("Enchantments")) {
 							Map<String, Object> kitArmourEnchantments = getValues(kitMap, "Enchantments");
 							for (Map.Entry<String, Object> enchantmentEntrySet : kitArmourEnchantments.entrySet()) {
-								Enchantment enchantmentType = Utilities.isNumber(Integer.class, entrySet.getKey()) ? Enchantment.getById(Integer.parseInt(enchantmentEntrySet.getKey())) : Enchantment.getByName(Utilities.getEnchantmentName(enchantmentEntrySet.getKey()));
+								Enchantment enchantmentType = Enchantment.getByName(Utilities.getEnchantmentName(enchantmentEntrySet.getKey()));
 								if (enchantmentType != null) {
 									String enchantmentValue = enchantmentEntrySet.getValue().toString();
 									int enchantmentLevel = Utilities.isNumber(Integer.class, enchantmentValue) ? Integer.parseInt(enchantmentValue) : 1;

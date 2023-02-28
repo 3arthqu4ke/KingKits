@@ -124,7 +124,7 @@ public class ItemUtilities {
 				}
 
 				// Eggs
-				if (material == Material.MONSTER_EGG && serializedItem.get("Egg") != null) {
+				if (material == Material.EGG && serializedItem.get("Egg") != null) {
 					if (KingKits.getServerVersion().startsWith("v1_9_") || KingKits.getServerVersion().startsWith("v1_10_")) {
 						try {
 							deserializedItem = NBTUtilities.setEgg(deserializedItem, ObjectUtilities.getObject(serializedItem, String.class, "Egg"));
@@ -356,7 +356,7 @@ public class ItemUtilities {
 				boolean ambient = ObjectUtilities.getObject(serializedPotion, Boolean.class, "Ambient", false);
 				boolean particles = ObjectUtilities.getObject(serializedPotion, Boolean.class, "Particles", true);
 				Color color = serializedPotion.containsKey("Color") ? Color.fromRGB(ObjectUtilities.getObject(serializedPotion, Number.class, "Color", Color.GRAY.asRGB()).intValue()) : null;
-				return new PotionEffect(potionEffectType, duration != -1D ? (int) (duration * 20D) : Integer.MAX_VALUE, Math.max(level, 0), ambient, particles, color);
+				return new PotionEffect(potionEffectType, duration != -1D ? (int) (duration * 20D) : Integer.MAX_VALUE, Math.max(level, 0), ambient, particles, false);
 			}
 		}
 		return null;
@@ -554,7 +554,7 @@ public class ItemUtilities {
 			}
 
 			// NBT Tags
-			if (itemStack.getType() == Material.MONSTER_EGG) {
+			if (itemStack.getType() == Material.EGG) {
 				if (KingKits.getServerVersion().startsWith("v1_9_") || KingKits.getServerVersion().startsWith("v1_10_")) {
 					try {
 						String strEggType = NBTUtilities.getEgg(itemStack);

@@ -3,8 +3,8 @@ package com.faris.kingkits;
 import com.faris.kingkits.controller.ConfigController;
 import com.faris.kingkits.helper.json.JsonSerializable;
 import com.faris.kingkits.helper.util.*;
+import com.faris.kingkits.old.Validate;
 import com.google.gson.JsonPrimitive;
-import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
@@ -44,7 +44,7 @@ public class Kit implements Cloneable, ConfigurationSerializable, JsonSerializab
 	private int heldItemSlot = -1;
 
 	public Kit(String kitName) {
-		Validate.notNull(kitName);
+		Objects.requireNonNull(kitName);
 		Validate.notEmpty(kitName);
 		this.kitName = kitName;
 		this.kitDisplayName = kitName;
@@ -53,7 +53,7 @@ public class Kit implements Cloneable, ConfigurationSerializable, JsonSerializab
 	}
 
 	public Kit(String kitName, double kitCost) {
-		Validate.notNull(kitName);
+		Objects.requireNonNull(kitName);
 		Validate.notEmpty(kitName);
 		this.kitName = kitName;
 		this.kitDisplayName = kitName;
@@ -63,8 +63,8 @@ public class Kit implements Cloneable, ConfigurationSerializable, JsonSerializab
 	}
 
 	public Kit(String kitName, Map<Integer, ItemStack> kitItems, ItemStack offHand) {
-		Validate.notNull(kitName);
-		Validate.notNull(kitItems);
+		Objects.requireNonNull(kitName);
+		Objects.requireNonNull(kitItems);
 		Validate.notEmpty(kitName);
 		this.kitName = kitName;
 		this.kitDisplayName = kitName;
@@ -74,9 +74,9 @@ public class Kit implements Cloneable, ConfigurationSerializable, JsonSerializab
 	}
 
 	public Kit(String kitName, Map<Integer, ItemStack> kitItems, ItemStack offHand, List<PotionEffect> potionEffects) {
-		Validate.notNull(kitName);
-		Validate.notNull(kitItems);
-		Validate.notNull(potionEffects);
+		Objects.requireNonNull(kitName);
+		Objects.requireNonNull(kitItems);
+		Objects.requireNonNull(potionEffects);
 		Validate.notEmpty(kitName);
 		this.kitName = kitName;
 		this.kitDisplayName = kitName;
@@ -87,10 +87,10 @@ public class Kit implements Cloneable, ConfigurationSerializable, JsonSerializab
 	}
 
 	public Kit(String kitName, Map<Integer, ItemStack> kitItems, ItemStack offHand, ItemStack[] kitArmour, List<PotionEffect> potionEffects) {
-		Validate.notNull(kitName);
-		Validate.notNull(kitItems);
-		Validate.notNull(kitArmour);
-		Validate.notNull(potionEffects);
+		Objects.requireNonNull(kitName);
+		Objects.requireNonNull(kitItems);
+		Objects.requireNonNull(kitArmour);
+		Objects.requireNonNull(potionEffects);
 		Validate.notEmpty(kitName);
 		this.kitName = kitName;
 		this.kitDisplayName = kitName;
@@ -102,8 +102,8 @@ public class Kit implements Cloneable, ConfigurationSerializable, JsonSerializab
 	}
 
 	public Kit(String kitName, double kitCost, Map<Integer, ItemStack> kitItems, ItemStack offHand) {
-		Validate.notNull(kitName);
-		Validate.notNull(kitItems);
+		Objects.requireNonNull(kitName);
+		Objects.requireNonNull(kitItems);
 		Validate.notEmpty(kitName);
 		this.kitName = kitName;
 		this.kitDisplayName = kitName;
@@ -114,9 +114,9 @@ public class Kit implements Cloneable, ConfigurationSerializable, JsonSerializab
 	}
 
 	public Kit(String kitName, double kitCost, Map<Integer, ItemStack> kitItems, ItemStack offHand, List<PotionEffect> potionEffects) {
-		Validate.notNull(kitName);
-		Validate.notNull(kitItems);
-		Validate.notNull(potionEffects);
+		Objects.requireNonNull(kitName);
+		Objects.requireNonNull(kitItems);
+		Objects.requireNonNull(potionEffects);
 		Validate.notEmpty(kitName);
 		this.kitName = kitName;
 		this.kitDisplayName = kitName;
@@ -261,7 +261,7 @@ public class Kit implements Cloneable, ConfigurationSerializable, JsonSerializab
 	}
 
 	public Kit setCommands(List<String> commands) {
-		Validate.notNull(commands);
+		Objects.requireNonNull(commands);
 		this.kitCommands = commands;
 		return this;
 	}
@@ -322,20 +322,20 @@ public class Kit implements Cloneable, ConfigurationSerializable, JsonSerializab
 	}
 
 	public Kit setName(String name) {
-		Validate.notNull(name);
+		Objects.requireNonNull(name);
 		Validate.notEmpty(name);
 		this.kitName = name;
 		return this;
 	}
 
 	public Kit setOffHand(ItemStack offHand) {
-		Validate.notNull(offHand);
+		Objects.requireNonNull(offHand);
 		this.offHand = offHand.clone();
 		return this;
 	}
 
 	public Kit setPotionEffects(List<PotionEffect> potionEffects) {
-		Validate.notNull(potionEffects);
+		Objects.requireNonNull(potionEffects);
 		this.potionEffects = potionEffects;
 		return this;
 	}

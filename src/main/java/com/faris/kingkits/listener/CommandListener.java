@@ -29,7 +29,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.json.simple.JSONObject;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -37,7 +36,7 @@ import java.io.FileWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.PreparedStatement;
 import java.util.*;
-import java.util.logging.*;
+import java.util.logging.Level;
 
 public class CommandListener implements CommandExecutor {
 
@@ -243,7 +242,7 @@ public class CommandListener implements CommandExecutor {
 																	statementInsertTable.addColumns(new StatementInsertTable.Column("unlocked", playerDataConfig.getStringList("Unlocked kits")));
 																}
 																if (!playerKits.isEmpty()) {
-																	statementInsertTable.addColumns(new StatementInsertTable.Column("kits", JSONObject.escape(Utilities.getGsonParser().toJson(JsonUtilities.fromMap(playerKits)))));
+																	statementInsertTable.addColumns(new StatementInsertTable.Column("kits", JsonUtil.escape(Utilities.getGsonParser().toJson(JsonUtilities.fromMap(playerKits)))));
 																}
 																String insertQuery = statementInsertTable.toSQLString();
 																if (insertQuery != null) sqlQueries.add(insertQuery);
@@ -333,7 +332,7 @@ public class CommandListener implements CommandExecutor {
 
 										Messages.sendMessage(sender, Messages.COMMAND_CONFIG_SAVED);
 									} else {
-										ItemStack configBook = new ItemStack(Material.BOOK_AND_QUILL);
+										ItemStack configBook = new ItemStack(Material.BOOK);
 										ItemMeta itemMeta = configBook.getItemMeta();
 										if (itemMeta != null) {
 											itemMeta.setDisplayName(ChatUtilities.replaceChatCodes("&6KingKits config"));

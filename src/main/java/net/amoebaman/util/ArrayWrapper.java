@@ -1,6 +1,6 @@
 package net.amoebaman.util;
 
-import org.apache.commons.lang.Validate;
+import com.faris.kingkits.old.Validate;
 
 import java.lang.reflect.Array;
 import java.util.*;
@@ -44,7 +44,7 @@ public final class ArrayWrapper<E> {
 	 * @param array The new wrapped array.
 	 */
 	public void setArray(E[] array) {
-		Validate.notNull(array, "The array must not be null.");
+		Objects.requireNonNull(array, "The array must not be null.");
 		_array = array;
 	}
 
