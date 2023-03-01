@@ -9,6 +9,7 @@ import com.faris.kingkits.helper.util.*;
 import com.faris.kingkits.old.OldKit;
 import com.faris.kingkits.player.OfflineKitPlayer;
 import com.faris.kingkits.storage.DataStorage;
+import com.google.common.collect.Lists;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -137,7 +138,9 @@ public class ConfigController implements Controller {
 	}
 
 	private void saveDefaultConfig() {
-		this.getConfig().options().header("KingKits configuration");
+		List<String> headers = new ArrayList<>();
+		headers.add("KingKits configuration");
+		this.getConfig().options().setHeader(headers);
 		this.getConfig().addDefault("Version", CURRENT_CONFIG_VERSION, "Do NOT modify this, this is for the plugin only.");
 		this.getConfig().addDefault("Updater.Enabled", true, "Set to 'false' if you want to disable the checking of new updates.");
 		this.getConfig().addDefault("Updater.Update", true, "Set to 'true' if you want to auto-update the plugin if a new version has been found.", "This only works for Bukkit.");
@@ -236,8 +239,8 @@ public class ConfigController implements Controller {
 		this.getConfig().addDefault("Drop animation IDs", new ArrayList<>(Arrays.asList(Material.MUSHROOM_STEW.getKey().getKey(), Material.GLASS_BOTTLE.getKey().getKey())), "A list of item IDs that, when dropped and dropping items is disabled, are dropped but get removed when on the floor.");
 		this.getConfig().addDefault("Food level lock", 20, "The food level to lock a player's food level at.");
 		this.getConfig().addDefault("Quick soup heal", 5D, "The amount of health to heal a player by when they quick soup. 1 heart = 2 health.");
-		this.getConfig().options().copyHeader(true);
-		this.getConfig().options().copyDefaults(true);
+		//this.getConfig().options().copyHeader(true);
+		//this.getConfig().options().copyDefaults(true);
 		this.saveConfig();
 	}
 

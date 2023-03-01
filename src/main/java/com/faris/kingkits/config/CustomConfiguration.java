@@ -13,46 +13,19 @@ import java.util.*;
 import java.util.logging.*;
 
 public class CustomConfiguration extends YamlConfiguration {
-
-	private Map<String, List<String>> comments = null;
 	private boolean newLineAfterHeader = true;
 	private boolean newLinePerKey = false;
 
 	private CustomConfiguration() {
 		super();
-		this.comments = new LinkedHashMap<>();
 	}
 
 	public void addDefault(String path, Object defaultValue, String... comments) {
-		if (defaultValue != null && comments != null && comments.length > 0 && !this.comments.containsKey(path)) {
-			List<String> commentsList = new ArrayList<>();
-			for (String comment : comments) {
-				if (comment != null) commentsList.add(comment);
-				else commentsList.add("");
-			}
-			this.comments.put(path, commentsList);
-		}
 		super.addDefault(path, defaultValue);
 	}
 
 	public ConfigurationSection createSection(String path, String... comments) {
-		if (path != null && comments != null && comments.length > 0) {
-			List<String> commentsList = new ArrayList<>();
-			for (String comment : comments) {
-				if (comment != null) commentsList.add(comment);
-				else commentsList.add("");
-			}
-			this.comments.put(path, commentsList);
-		}
 		return super.createSection(path);
-	}
-
-	public Map<String, List<String>> getComments() {
-		return new LinkedHashMap<>(this.comments);
-	}
-
-	public List<String> getComments(String path) {
-		return this.comments.containsKey(path) ? new ArrayList<>(this.comments.get(path)) : new ArrayList<>();
 	}
 
 	@Override
@@ -85,8 +58,6 @@ public class CustomConfiguration extends YamlConfiguration {
 				}
 			}
 		}
-		this.comments.clear();
-		this.comments.putAll(configComments);
 	}
 
 	public void load(File file, boolean loadComments) throws IOException, InvalidConfigurationException {
@@ -124,19 +95,6 @@ public class CustomConfiguration extends YamlConfiguration {
 					hitKey = true;
 					configKey = getPathToKey(configContent, lineIndex, configLine);
 				}
-				if (configKey != null && saveComments && this.comments.containsKey(configKey)) {
-					int numOfSpaces = getPrefixSpaceCount(configLine);
-					String spacePrefix = "";
-					for (int i = 0; i < numOfSpaces; i++) spacePrefix += " ";
-					List<String> configComments = this.comments.get(configKey);
-					if (configComments != null) {
-						for (String comment : configComments) {
-							if (comment.isEmpty()) continue;
-							configWriter.append(spacePrefix).append("# ").append(comment);
-							configWriter.newLine();
-						}
-					}
-				}
 				if (!saveComments && !hitKey && lineIndex != 0 && (configLine.startsWith("#") || configLine.isEmpty())) {
 					continue;
 				}
@@ -166,13 +124,10 @@ public class CustomConfiguration extends YamlConfiguration {
 						if (comment != null) commentsList.add(comment);
 						else commentsList.add("");
 					}
-					this.comments.put(key, commentsList);
 				} else {
-					this.comments.remove(key);
 				}
 			}
 		} else {
-			this.comments.remove(key);
 		}
 		super.set(key, value);
 	}
